@@ -28,6 +28,7 @@ struct Token {
 void error(char *fmt, ...);
 void error_tok(Token *tok, char *fmt, ...);
 bool consume(char *op);
+Token *consume_ident();
 void expect(char *op);
 int expect_number();
 bool at_eof();
@@ -50,18 +51,24 @@ typedef enum {
   ND_NE,
   ND_LT,
   ND_LE,
+  ND_ASSIGN,
+  ND_RETURN,
+  ND_EXPR_STMT,
+  ND_LVAR,
   ND_NUM,
 } NodeKind;
 
 typedef struct Node Node;
 struct Node {
   NodeKind kind;
+  Node *next;
   Node *lhs;
   Node *rhs;
+  char name;
   int val;
 };
 
-Node *expr();
+Node *program();
 
 //
 // codegen.c
